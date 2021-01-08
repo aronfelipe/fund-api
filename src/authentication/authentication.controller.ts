@@ -18,23 +18,26 @@ export class AuthenticationController {
   @Post("register")
   async register(@Body() user: AuthenticationUser): Promise<ResponseInterface> {
     try {
-      // TODO tratar erro de usuário com mesmo email
-        const salt = Math.random().toString(16);
-        const passwordSalt = user.password + salt;
-        const password = crypto.SHA256(passwordSalt).toString();
-        const userInsert = await this.userRepository.insert({
-            email: user.email,
-            password,
-            salt,
-            role: UserRole.CONSUMER
-        });
-        const userdb = await this.userRepository.findOne(userInsert['identifiers'][0]['id']);
-        const response = <ResponseInterface> {
-            message: "Register successful",
-            response: userdb,
-            status: 200
-        }
-        return response;
+      const userdbfind = await this.userRepository.findOne({where: {email: user.email}})
+      if (userdbfind) {
+        throw new HttpException('Esse já está cadastrado', HttpStatus.FORBIDDEN);
+      }
+      const salt = Math.random().toString(16);
+      const passwordSalt = user.password + salt;
+      const password = crypto.SHA256(passwordSalt).toString();
+      const userInsert = await this.userRepository.insert({
+          email: user.email,
+          password,
+          salt,
+          role: UserRole.CONSUMER
+      });
+      const userdb = await this.userRepository.findOne(userInsert['identifiers'][0]['id']);
+      const response = <ResponseInterface> {
+          message: "Register successful",
+          response: userdb,
+          status: 200
+      }
+      return response;
     }
     catch (error) {
         return error

@@ -18,8 +18,8 @@ export class BalanceService {
 
   private readonly logger = new Logger(BalanceService.name);
 
-//   @Cron('0 0 0 * * 1-7')
-  @Cron('45 * * * * *')
+  @Cron('0 0 0 * * 1-7')
+//   @Cron('45 * * * * *')
   async snapshotBalances() {
     try {
       const usersdb = await this.userRepository.find();
