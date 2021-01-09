@@ -19,9 +19,9 @@ import { Balance } from './balance/balance.model';
     type: 'postgres',
     host: 'localhost',
     port: 5432,
-    username: 'felipe',
-    password: '420DevOps',
-    database: 'fund',
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: 'webserver',
     entities: [User, Token, Transfer, Balance],
     synchronize: true,
   }), AuthenticationModule, TokenModule, TransferModule, BalanceModule],
@@ -37,6 +37,5 @@ export class AppModule implements NestModule {
         { path: 'user/consumer/profile', method: RequestMethod.GET }
       )
       .forRoutes('user', 'token', 'transfer')
-      
   }
 }
