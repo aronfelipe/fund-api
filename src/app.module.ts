@@ -17,11 +17,11 @@ import { Balance } from './balance/balance.model';
 @Module({
   imports: [UserModule, TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
+    host: 'kashin.db.elephantsql.com',
     port: 5432,
-    username: 'felipe',
-    password: '420DevOps',
-    database: 'fund',
+    username: 'hsbvrpsz',
+    password: '5-WqK6kba4w3g747qKwllGW5FhOhtYTt',
+    database: 'hsbvrpsz',
     entities: [User, Token, Transfer, Balance],
     synchronize: true,
   }), AuthenticationModule, TokenModule, TransferModule, BalanceModule],
